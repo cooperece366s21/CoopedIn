@@ -14,7 +14,6 @@ public interface JobDao {
     //@SqlQuery("select id, company, location, job_title, true as available from jobs j left join job_types jt on j.id = jt.job_id where j.company = :company")
     //@SqlQuery("select * from jobs where jobs.company = :company")
     @SqlQuery("select id, company, location, job_title, true as available, jt.job_type from jobs j left join job_types jt on j.id = jt.job_id where j.company = :company")
-
     @RegisterRowMapper(CoopedInJdbi.JobRowMapper.class)
     //Job getJob(@Bind("id") String id);
     List<Job> getByCompany(@Bind("company") String company);
@@ -28,6 +27,9 @@ public interface JobDao {
     @RegisterRowMapper(CoopedInJdbi.JobRowMapper.class)
     List<Job> getByJobtype(@Bind("job_type") String job_type);
 
+   /* @SqlQuery("select id, company, location, job_title, true as available, jt.job_type from jobs j left join job_types jt on j.id = jt.job_id")
+    @RegisterRowMapper(CoopedInJdbi.JobRowMapper.class)
+    List<Job> getAll(@Bind("id") String id);*/
 
     // EC 4.18.21: Need to test functionality
 

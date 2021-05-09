@@ -14,6 +14,21 @@ create table if not exists job_types (
     foreign key (job_id) references jobs(id)
     );
 
+create table if not exists apps (
+    appID varchar(3) primary key not null,
+    jobID varchar(3) not null,
+    userID varchar(3) not null,
+    companyID varchar(3) not null,
+    CV varchar(1024) not null
+);
+
+create type Statuses as enum ('Submitted', 'Reviewed', 'Accepted', 'Rejected');
+create table if not exists app_status (
+    app_ID varchar(3) not null,
+    status Statuses,
+    primary key (app_ID, Status),
+    foreign key (app_ID) references apps(appID)
+);
 
 create table if not exists companies (
     company_id varchar(3) not null,
@@ -62,7 +77,7 @@ select id, company, location, job_title, true as available from jobs j left join
 
 select id, company, location, job_title, true as available, jt.job_type from jobs j left join companies c on j.company = c.company_name left join job_types jt on j.id = jt.job_id where c.company_name = 'NVIDIA';
 
-select * from jobs j left join job_types jt on j.id = jt.job_id where company = 'NVIDIA';
+select id, company, location, job_title, true as available, jt.job_type from jobs j left join job_types jt on j.id = jt.job_id;
 
 select id, company, location, job_title, true as available, jt.job_type from jobs j left join job_types jt on j.id = jt.job_id where j.company = 'NVIDIA';
 
@@ -70,3 +85,12 @@ select id, company, location, job_title, true as available, jt.job_type from job
 
 select * from companies where company_name = 'NVIDIA';
 
+/*add applications*/
+insert into apps(appID, jobID, userID, companyID, CV) values ('1', '4', '8', 'C4','http://ellaCV.com');
+insert into apps(appID, jobID, userID, companyID, CV) values ('2', '5', '5', 'C5','http://bobCV.com');
+insert into apps(appID, jobID, userID, companyID, CV) values ('3', '4', '1', 'C4','http://jeanCV.com');
+insert into app_status(app_ID, status) values ('1', 'Submitted');
+insert into app_status(app_ID, status) values ('2', 'Accepted');
+insert into app_status(app_ID, status) values ('3', 'Submitted');
+
+select appID, jobID, userID, companyID, CV, aps.status from apps apl left join app_status aps on apl.appID = aps.app_ID;

@@ -37,6 +37,10 @@ public class JobStorePostgres implements JobStore {
         this.jdbi = jdbi;
     }
 
+   /* @Override
+    public List<Job> getAll(final String id) {
+        return (List<Job>) jdbi.withHandle(handle -> handle.attach(JobDao.class).getAll(id));
+    }*/
     @Override
     public List<Job> getByCompany(String company) {
         return (List<Job>) jdbi.withHandle(handle -> handle.attach(JobDao.class).getByCompany(company));

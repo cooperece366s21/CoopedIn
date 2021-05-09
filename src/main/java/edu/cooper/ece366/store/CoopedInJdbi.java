@@ -2,18 +2,15 @@ package edu.cooper.ece366.store;
 
 import edu.cooper.ece366.model.*;
 import org.jdbi.v3.core.Jdbi;
-import org.jdbi.v3.core.spi.JdbiPlugin;
 import org.jdbi.v3.sqlobject.SqlObjectPlugin;
 
 import org.jdbi.v3.core.mapper.RowMapper;
 import org.jdbi.v3.core.statement.StatementContext;
-import org.jdbi.v3.postgres.PostgresPlugin;
+import org.w3c.dom.Text;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class CoopedInJdbi {
 
@@ -65,5 +62,28 @@ public class CoopedInJdbi {
         }
 
     }
+
+    public static class ApplicationRowMapper implements RowMapper<Application> {
+        @Override
+        public Application map(final ResultSet rs, final StatementContext ctx) throws SQLException {
+            String userID = rs.getString("userID");
+            String jobID = rs.getString("jobID");
+            String appID = rs.getString("appID");
+            String companyID = rs.getString("companyID");
+            String CV = rs.getString("CV");
+            String status = rs.getString("status");
+
+            return new ApplicationBuilder()
+                    .status(List.of(Application.Status.fromDbValue(status)))
+                    .userID(userID)
+                    .companyID(companyID)
+                    .jobID(jobID)
+                    .appID(appID)
+                    .CV(CV).build();
+        }
+
+    }
+
+
 
 }

@@ -5,12 +5,14 @@ import edu.cooper.ece366.model.Feed;
 import edu.cooper.ece366.model.Job;
 import edu.cooper.ece366.model.User;
 import edu.cooper.ece366.service.FeedService;
+import edu.cooper.ece366.store.ApplicationStorePostgres;
 import edu.cooper.ece366.store.CompanyStore;
 import edu.cooper.ece366.store.JobStore;
 import edu.cooper.ece366.store.UserStore;
 import spark.Request;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Handler {
@@ -19,7 +21,7 @@ public class Handler {
   private final FeedService feedService;
   private final CompanyStore companyStore;
 
-  public Handler(UserStore userStore, FeedService feedService, CompanyStore companyStore) {
+  public Handler(UserStore userStore, FeedService feedService, ApplicationStorePostgres appStorePostgres, CompanyStore companyStore) {
     this.userStore = userStore;
     this.feedService = feedService;
     this.companyStore = companyStore;
@@ -38,7 +40,13 @@ public class Handler {
     User user = getUser(request);
     return feedService.getFeedForUser(user);
   }
-
+/*
+  public Feed getAllFeed(Request request) {
+    List<String> ids = new ArrayList(Arrays.asList("FullTime","Coop","PartTime","Internship"));
+    System.out.println("getAllFeed() success!");
+    return feedService.get_All(ids);
+  }
+*/
 
   public Feed getFeedByJobType(Request request) {
     String jt = request.params(":job_type");

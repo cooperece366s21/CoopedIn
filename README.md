@@ -272,6 +272,7 @@ $ curl -s localhost:4567/job/Internship/feed | jq
 }
 
 **Create new application**
+
 $ curl -d "app=4&job=7&user=2&company=C6&CV=http://samCV.com/" localhost:4567/newApp
 
 Failed in adding new application.

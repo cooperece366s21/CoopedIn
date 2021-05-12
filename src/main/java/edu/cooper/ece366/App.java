@@ -2,24 +2,23 @@ package edu.cooper.ece366;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.internal.bind.util.ISO8601Utils;
 import edu.cooper.ece366.handler.Handler;
-import edu.cooper.ece366.model.Application;
 import edu.cooper.ece366.model.Job;
-import edu.cooper.ece366.model.User;
 import edu.cooper.ece366.service.FeedServiceImpl;
-import edu.cooper.ece366.store.*;
+import edu.cooper.ece366.store.ApplicationStorePostgres;
+import edu.cooper.ece366.store.CompanyStorePostgres;
+import edu.cooper.ece366.store.CoopedInJdbi;
+import edu.cooper.ece366.store.JobStorePostgres;
+import edu.cooper.ece366.store.UserStorePostgres;
 import io.norberg.automatter.gson.AutoMatterTypeAdapterFactory;
 import org.jdbi.v3.core.Jdbi;
 import spark.Spark;
 
-import java.util.Arrays;
-import java.util.List;
-
 import static edu.cooper.ece366.store.JobStoreImpl.addJob;
-import static edu.cooper.ece366.store.UserStoreImpl.addUser;
+import static spark.Spark.before;
 import static spark.Spark.get;
 import static spark.Spark.initExceptionHandler;
+import static spark.Spark.options;
 
 public class App {
   public static void main(String[] args) {
@@ -94,5 +93,31 @@ public class App {
       boolean keySuccess = addJob(id, company, jobTitle, location, jobType);
       return (keySuccess ? ("Success! New Job Created with id =" + id + "\n") : ("Failed in adding new job.\n"));
       });
+
+    options(
+            "/*",
+            (request, response) -> {
+              String accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");
+              if (accessControlRequestHeaders != null) {
+                //            response.header("Access-Control-Allow-Headers",
+                // accessControlRequestHeaders);
+                response.header("Access-Control-Allow-Headers", "*");
+              }
+
+              String accessControlRequestMethod = request.headers("Access-Control-Request-Method");
+              if (accessControlRequestMethod != null) {
+                response.header("Access-Control-Allow-Methods", accessControlRequestMethod);
+                response.header("Access-Control-Allow-Methods", "*");
+              }
+
+              return "OK";
+            });
+
+    before(
+            (req, res) -> {
+              res.header("Access-Control-Allow-Origin", "*");
+              res.header("Access-Control-Allow-Headers", "*");
+              res.type("application/json");
+            });
   }
 }

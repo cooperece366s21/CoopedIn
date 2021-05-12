@@ -34,11 +34,12 @@ public interface JobDao {
     // EC 4.18.21: Need to test functionality
 
     @SqlUpdate("insert into jobs(id, company, location, job_title) values (:id, :company, :location, :job_title)")
+    //@SqlUpdate("insert into job_types(job_id, job_type) values (:id, :job_type)")
     void insertJob(
             @Bind("id") String id,
             @Bind("company") String company,
             @Bind("location") String location,
-            @Bind("job_title") String job_title);
-
+            @Bind("job_title") String job_title,
+            @Bind("job_type") String job_type);
 
 }

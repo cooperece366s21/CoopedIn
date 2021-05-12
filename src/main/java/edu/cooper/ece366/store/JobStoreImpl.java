@@ -108,15 +108,15 @@ public class JobStoreImpl implements JobStore {
                 .collect(Collectors.toList());
     }
 
-    public static boolean addJob(final String id, final String company,
+    public boolean addJob(final String id, final String company,
                               final String jobTitle, final String location,
-                              final Job.JobType jobType) {
+                              final String job_type) {
         // create new user
         if(jobMap.containsKey(id)) {
             System.out.println("Create another id!");
             return false;
         }
-
+        Job.JobType jobType=Job.JobType.valueOf(job_type);
         Job newJob = new JobBuilder()
                 .jobType(jobType)
                 .id(id)

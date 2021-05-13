@@ -250,7 +250,7 @@ Test Commit
 
 Get feed by job type example:
 
-curl -s localhost:4567/job/Internship/feed | jq
+$ curl -s localhost:4567/job/Internship/feed | jq
 
 {
 "jobPostings": [
@@ -270,3 +270,14 @@ curl -s localhost:4567/job/Internship/feed | jq
 }
 ]
 }
+
+**Create new application**
+
+$ curl -d "app=4&job=7&user=2&company=C6&CV=http://samCV.com/" localhost:4567/newApp
+
+Failed in adding new application.
+
+$ curl -d "app=5&job=3&user=6&company=C3&CV=http://user6CV.com/" localhost:4567/newApp
+
+Success! New Application Created with id =5
+

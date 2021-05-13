@@ -4,6 +4,7 @@ import edu.cooper.ece366.model.*;
 import edu.cooper.ece366.store.JobDao;
 import edu.cooper.ece366.store.JobStore;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,6 +14,20 @@ public class FeedServiceImpl implements FeedService {
 
     public FeedServiceImpl(JobStore jobStore) { this.jobStore = jobStore; }
 
+    //final List<String> jobTypesForAll = new Array.asList("Fulltime", "PartTime", "Internship", "Coop");
+   /*
+    public Feed get_All(final List<String> ids){
+        List<JobPosts> jobPostings =
+                ids.stream()
+                        .map(jobStore::getAll)
+                        .map(items ->
+                                new JobPostsBuilder()
+                                        .jobPostItems(items)
+                                        .build())
+                        .collect(Collectors.toList());
+        return new FeedBuilder().jobPostings(jobPostings).build();
+    }
+    */
     @Override
     public Feed getFeedForUser(final User user) {
         List<JobPosts> jobPostings =

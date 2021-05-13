@@ -76,6 +76,15 @@ public class JobStoreImpl implements JobStore {
 
     //@Override
     //public Job get(final Locations location) { return jobMap.get(location); }
+    //List<String> jobTypesForAll = {"Fulltime", "PartTime", "Internship", "Coop"};
+    /*
+    @Override
+    public List<Job> getAll(final String ids) {
+        System.out.println("Here in JobStoreImpl!");
+        return jobMap.values().stream()
+                .filter(jobs -> ids.equals(jobs.id()))
+                .collect(Collectors.toList());
+    }*/
 
     @Override
     public List<Job> getByLocation(final String location) {
@@ -99,15 +108,15 @@ public class JobStoreImpl implements JobStore {
                 .collect(Collectors.toList());
     }
 
-    public static boolean addJob(final String id, final String company,
+    public boolean addJob(final String id, final String company,
                               final String jobTitle, final String location,
-                              final Job.JobType jobType) {
+                              final String job_type) {
         // create new user
         if(jobMap.containsKey(id)) {
             System.out.println("Create another id!");
             return false;
         }
-
+        Job.JobType jobType=Job.JobType.valueOf(job_type);
         Job newJob = new JobBuilder()
                 .jobType(jobType)
                 .id(id)

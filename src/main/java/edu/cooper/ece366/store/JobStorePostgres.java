@@ -38,6 +38,22 @@ public class JobStorePostgres implements JobStore {
     }
 
     @Override
+    public boolean addJob(String id, String company, String jobTitle, String location, String jobType) {
+        try {jdbi.useHandle(
+                handle -> {
+                    handle.attach(JobDao.class).insertJob(id, company, location, jobTitle, jobType);
+                });
+            return true;} catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /* @Override
+        public List<Job> getAll(final String id) {
+            return (List<Job>) jdbi.withHandle(handle -> handle.attach(JobDao.class).getAll(id));
+        }*/
+    @Override
     public List<Job> getByCompany(String company) {
         return (List<Job>) jdbi.withHandle(handle -> handle.attach(JobDao.class).getByCompany(company));
     }
@@ -51,5 +67,6 @@ public class JobStorePostgres implements JobStore {
     public List<Job> getByJobtype(String jobType) {
         return (List<Job>) jdbi.withHandle(handle -> handle.attach(JobDao.class).getByJobtype(jobType));
     }
+
 
 }

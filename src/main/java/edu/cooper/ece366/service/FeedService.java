@@ -13,4 +13,6 @@ public interface FeedService {
     Feed getFeedForCompanies(Company company);
 
     Feed getFeedJobtype(List<String> jt);
+
+    //Feed get_All(List<String> id);
 }
